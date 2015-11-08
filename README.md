@@ -17,10 +17,7 @@ This assignment uses data from the <a href="http://archive.ics.uci.edu/ml/">UC I
 
 * <b>Description</b>: Measurements of electric power consumption in one household with a one-minute sampling rate over a period of almost 4 years. Different electrical quantities and some sub-metering values are available.
 
-
-## Code Book: 
-
-The following descriptions of the 9 variables in the dataset are taken from the 
+* <b>Fields</b>: The following descriptions of the 9 variables in the dataset are taken from the 
 <a href="https://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption">UCI web site</a>:
 
 <ol>
@@ -55,19 +52,21 @@ The cleaned up data set is used for generating all plots (as in the sample provi
   
 * The basic `R` plot functions like `hist`, `plot`, `points`, and `legend` are used for generating the plots.
 * The plot is saved/copied to a PNG file, using `dev.copy`, with a width of 480 pixels and a height of 480 pixels.  
+
+***Code Book*** is avilable on github repository - [CodeBook.md](https://github.com/snrajesh/ExData_Plotting1/blob/master/CodeBook.md).  
   
 
 ***Code for Making Plots***:  
-* The R code used for each plot is saved in a R code file - named [plot1.R](https://github.com/snrajesh/ExData_Plotting1/plot1.R), [plot2.R](https://github.com/snrajesh/ExData_Plotting1/plot2.R), [plot3.R](https://github.com/snrajesh/ExData_Plotting1/plot3.R), and [plot4.R](https://github.com/snrajesh/ExData_Plotting1/plot4.R).  
+* The R code used for each plot is saved in a R code file - named [plot1.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot1.R), [plot2.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot2.R), [plot3.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot3.R), and [plot4.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot4.R).  
 
-* The code also checks to see if the data set is available in memory. If it is not available, it will call the load data script ([load_and_tidyup_data.R](https://github.com/snrajesh/ExData_Plotting1/load_and_tidyup_data.R)) to load the data (***Estimated time: 8-10 seconds***).
+* The code also checks to see if the data set is available in memory. If it is not available, it will call the load data script ([load_and_tidyup_data.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/load_and_tidyup_data.R)) to load the data (***Estimated time: 10 seconds***).
 
   
 
 ## Results:
 
-* The output plots are saved as:  
-[plot1.png](https://github.com/snrajesh/ExData_Plotting1/plot1.png),    [plot1.png](https://github.com/snrajesh/ExData_Plotting1/plot1.png),    [plot2.png](https://github.com/snrajesh/ExData_Plotting1/plot2.png),    [plot3.png](https://github.com/snrajesh/ExData_Plotting1/plot3.png), and    [plot4.png](https://github.com/snrajesh/ExData_Plotting1/plot4.png).    
+* The output plots (480 X 480 pixels in PNG format) are saved as separate files :  
+[plot1.png](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot1.png),    [plot2.png](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot2.png),    [plot3.png](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot3.png), and    [plot4.png](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot4.png).    
   
   
 ### Plot 1 - Histogram to show distribution of global_active_power:
@@ -92,17 +91,16 @@ The cleaned up data set is used for generating all plots (as in the sample provi
   
   
  
-## Re-Run the Analysis:
+## To Reproduce the Analysis:
 
 Fork/Clone all the files from [Github Repository](https://github.com/snrajesh/ExData_Plotting1).  
-Run [load_and_tidyup_data.R](https://github.com/snrajesh/ExData_Plotting1/load_and_tidyup_data.R) to download and load the data.  
-Run codes [plot1.R](https://github.com/snrajesh/ExData_Plotting1/plot1.R), [plot2.R](https://github.com/snrajesh/ExData_Plotting1/plot2.R), [plot3.R](https://github.com/snrajesh/ExData_Plotting1/plot3.R), and [plot4.R](https://github.com/snrajesh/ExData_Plotting1/plot4.R) to generate each of the plots.  
+Run [load_and_tidyup_data.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/load_and_tidyup_data.R) to download and load the data.  
+Run codes [plot1.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot1.R), [plot2.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot2.R), [plot3.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot3.R), and [plot4.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/plot4.R) to generate each of the plots.  
 
 
   
 ***Note***:  
-To run all codes and generate all plots, run [EDA_project1.R](https://github.com/snrajesh/ExData_Plotting1/EDA_project1.R), which will download the file (if it is not in the working directory), load the file, and generate all plots to the current directory. Please note that the script has code to download the file to your current directory. If yo don't wish to download the file, please comment out the download command (in step 1,line 33-38).
+To run all codes and generate all plots, run [EDA_project1.R](https://github.com/snrajesh/ExData_Plotting1/blob/master/EDA_project1.R), which will download the file (if it is not in the working directory), load the file, and generate all plots to the current directory. Please note that the script has code to download the file to your current directory. If yo don't wish to download the file, please comment out the download command (in step 1,line 33-38).
   
 The toal execution time for the whole script (including download) is about *20 seconds*.
-  
   

@@ -3,10 +3,7 @@
 ##
 
 #   setwd('./ExploratoryAnalysis/ExData_Plotting1')
-#
 #   source('plot4.R')
-
-
 
 #
 # 0. Check if data needed for analysis is available in memory
@@ -15,7 +12,7 @@
 #       -   b. subset the data frame to just data for 2007-02-01 and 2007-02-02 
 #       -   c. add datetime column by combining Date and Time columns
 #       -   d. create the final tidy data set as "tbTidyData"
-
+# Note: This step takes about 10 seconds first time.
 
 if (!exists("tbTidyData")){
     source('load_and_tidyup_data.R')
@@ -45,14 +42,12 @@ with(tbTidyData, plot(datetime, Voltage, type='l'
 
 # 2C.    Create Plot to show relationship between Energy submetering and day/time
 
-plot(tbTidyData$datetime, tbTidyData$Sub_metering_1, type = "l",   
-     xlab = '', ylab = 'Energy Sub metering');
+plot(tbTidyData$datetime, tbTidyData$Sub_metering_1, type = "l", xlab = '', ylab = 'Energy Sub metering');
 points(tbTidyData$datetime, tbTidyData$Sub_metering_2, col='red', type = 'l');
 points(tbTidyData$datetime, tbTidyData$Sub_metering_3, col='blue', type = 'l');
 legend("topright", lty = 1, cex = .5, bty ='n', col = c("black","red","blue"), #pch = c('-','-','-'), 
        legend = c("Sub_metering_1 ","Sub_metering_2 ", "Sub_metering_3 ")
        );
-
 
 # 2D. Create Plot to show relationship between Gloabl Reactive Power and day/time
 

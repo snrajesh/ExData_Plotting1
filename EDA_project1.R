@@ -25,67 +25,72 @@
 #   setwd('./ExploratoryAnalysis/ExData_Plotting1')
 #
 #   source('EDA_project1.R')
-#
-#   system.time(load_data_and_plot())
 
-load_data_and_plot <- function() {
+
+#load_data_and_plot <- function() {
 
 ##
-## Step 1: Download file, load files into data.frame.tables, and do initial clean-up
+## Step 1: Download file, load files into data.frame.tables, and do initial clean-up (about 10 seconds)
 ##
 
-    #if (!exists("tbTidyData")){
+#if (!exists("tbTidyData")){
+
+    ### Load dplyr package for easy data manipulation (install if needed); supress startup messages
+    if (! suppressPackageStartupMessages(require("dplyr"))) {
+        install.packages('dplyr'); 
+        suppressPackageStartupMessages(library(dplyr));
+    }
+    if (! suppressPackageStartupMessages(require("data.table"))) {
+        install.packages('data.table'); 
+        suppressPackageStartupMessages(library(data.table));
+    }
     
-        ### Load dplyr package for easy data manipulation (install if needed)
-        if (! require("dplyr")) {
-            install.packages('dplyr'); 
-            library(dplyr);
+    ### 1.A. Download & unzip file
+    
+    dataFile <- 'household_power_consumption.txt';
+    fileUrl <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+    localFile <- 'exdata-data-household_power_consumption.zip'
+    
+    if(!file.exists(dataFile)) {
+        if(!file.exists(localFile)) {
+            download.file(url = fileUrl, destfile = localFile, mode="wb",method='internal')
         }
-        if (! require("data.table")) {
-            install.packages('data.table'); 
-            library(data.table);
-        }    
-        
-        ### 1.A. Download & unzip file
-        
-        dataFile <- 'household_power_consumption.txt';
-        fileUrl <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
-        localFile <- 'exdata-data-household_power_consumption.zip'
-        
-        if(!file.exists(dataFile)) {
-            if(!file.exists(localFile)) {
-                download.file(url = fileUrl, destfile = localFile, mode="wb",method='internal')
-            }
-            unzip(localFile)
-        }
-        
-        ### 1.B. load using fread into a data frame table (takes about 8-10sec)
-        
-        tbRawData <- fread(dataFile, sep = ";", na.strings = "?", strip.white = TRUE, # comment.char = "",
-                           # colClasses=c("character","character","numeric","numeric","numeric","numeric","numeric","numeric","numeric"),
-                           #nrows = 1000, skip = 0,
-                           header = TRUE, stringsAsFactors = FALSE
-        );
-        
-        #colclass <- sapply(tbRawData, class)
-        #memoryRequired <- 2075259 * 9 * 8 # no. of column * no. of rows * 8 bytes/numeric (/ 2^20 for MB)
-        #149,418,648
-        
-        
-        ### 1.C. subset Data for 2007-02-01 and 2007-02-02
-        
-        tbTidyData <- tbl_df(subset(tbRawData, as.Date(Date,"%d/%m/%Y") == '2007-02-01' 
-                                    | as.Date(Date,"%d/%m/%Y") == '2007-02-02'))
-        
-        ### 1.D. add datetime field by combining Date (in dd/mm/yyyy format) and  time (in hh:mm:ss format)
-        
-        tbTidyData$datetime <- strptime(paste(tbTidyData$Date,tbTidyData$Time),"%d/%m/%Y %H:%M:%S");
-        #tbTidyData <- mutate(tbTidyData,datetime = strptime(paste(Date,Time),"%d/%m/%Y %H:%M:%S")) # gives error Error: `mutate` does not support `POSIXlt` results
-        
-        rm(tbRawData)
+        unzip(localFile)
+    }
     
-    #}
+    ### 1.B. load using fread into a data frame table (takes about 8-10sec)
     
+    tbRawData <- fread(dataFile, sep = ";", na.strings = "?", strip.white = TRUE, # comment.char = "",
+                       # colClasses=c("character","character","numeric","numeric","numeric","numeric","numeric","numeric","numeric"),
+                       #nrows = 1000, skip = 0,
+                       header = TRUE, stringsAsFactors = FALSE
+    );
+    
+    #colclass <- sapply(tbRawData, class)
+    #memoryRequired <- 2075259 * 9 * 8 # no. of column * no. of rows * 8 bytes/numeric (/ 2^20 for MB)
+    #149,418,648
+    
+    
+    ### 1.C. subset Data for 2007-02-01 and 2007-02-02
+    
+    tbTidyData <- tbl_df(subset(tbRawData, 
+                                as.Date(Date,"%d/%m/%Y") == as.Date('2007-02-01',"%Y-%m-%d")  | 
+                                    as.Date(Date,"%d/%m/%Y") == as.Date('2007-02-02',"%Y-%m-%d")
+    ))
+    
+    ### 1.D. add datetime field by combining Date (in dd/mm/yyyy format) and  time (in hh:mm:ss format)
+    
+    tbTidyData$datetime <- strptime(paste(tbTidyData$Date,tbTidyData$Time),"%d/%m/%Y %H:%M:%S");
+    #tbTidyData <- mutate(tbTidyData,datetime = strptime(paste(Date,Time),"%d/%m/%Y %H:%M:%S")) # gives error Error: `mutate` does not support `POSIXlt` results
+    
+    # remove raw data table and unzipped file
+    rm(tbRawData)
+    file.remove(dataFile)
+    #file.remove(localFile)
+    
+#}
+
+
 #######
 
 #
@@ -116,19 +121,15 @@ dev.off()
 # 4.    Create Plot to show relationship between Energy submetering and day/time and output as a png file (plot3.png)
 #
 
-with(tbTidyData, plot(datetime, Global_active_power, type='l', xlab = '',
-                      ylab = 'Global Active Power (kilowatts)'#,ylim = range(0:6)
-))
-
-plot(tbTidyData$datetime, tbTidyData$Sub_metering_1, type = "l", xlab = '', ylab = 'Energy Sub metering', pch=1)
-#points(tbTidyData$datetime, tbTidyData$Sub_metering_1, col='black', type = 'l', pch=1);
+plot(tbTidyData$datetime, tbTidyData$Sub_metering_1, type = "l", xlab = '', ylab = 'Energy Sub metering');
 points(tbTidyData$datetime, tbTidyData$Sub_metering_2, col='red', type = 'l');
 points(tbTidyData$datetime, tbTidyData$Sub_metering_3, col='blue', type = 'l');
-
-legend("topright", pch=c('_','_','_'), col=c("black","red","blue"), 
-       legend=c("Sub_metering_1  ","Sub_metering_2  ", "Sub_metering_3  "))
+legend("topright", lty = 1, cex = .75, col = c("black","red","blue"), #pch = c('-','-','-'), 
+       legend = c("Sub_metering_1 ","Sub_metering_2 ", "Sub_metering_3 ")
+);
 
 dev.copy(device=png,file='plot3.png', width = 480, height = 480)
+#png(filename='plot3a.png')
 dev.off()
 
 
@@ -158,8 +159,7 @@ with(tbTidyData, plot(datetime, Voltage, type='l'
 
 # 2C.    Create Plot to show relationship between Energy submetering and day/time
 
-plot(tbTidyData$datetime, tbTidyData$Sub_metering_1, type = "l",   
-     xlab = '', ylab = 'Energy Sub metering');
+plot(tbTidyData$datetime, tbTidyData$Sub_metering_1, type = "l", xlab = '', ylab = 'Energy Sub metering');
 points(tbTidyData$datetime, tbTidyData$Sub_metering_2, col='red', type = 'l');
 points(tbTidyData$datetime, tbTidyData$Sub_metering_3, col='blue', type = 'l');
 legend("topright", lty = 1, cex = .5, bty ='n', col = c("black","red","blue"), #pch = c('-','-','-'), 
@@ -183,5 +183,8 @@ dev.off()
 
 par(mfrow = c(1,1), cex.lab = 1)
 
-}
+#}
+
+# run the function to download the file, load the file, and generate all plots to files.
+#load_data_and_plot()
 
